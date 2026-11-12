@@ -1,17 +1,39 @@
 import React, { useState } from 'react';
 import AboutUs from './AboutUs';
+import ProductList from './ProductList';
+import CartItem from './CartItem';
 import './App.css';
 
 function App() {
   const [showProductList, setShowProductList] = useState(false);
+  const [showCart, setShowCart] = useState(false);
 
   const handleGetStartedClick = () => {
+    setShowProductList(true);
+    setShowCart(false);
+  };
+
+  const handleHomeClick = () => {
+    setShowProductList(false);
+    setShowCart(false);
+  };
+
+  const handleCartClick = () => {
+    setShowCart(true);
+  };
+
+  const handleContinueShopping = () => {
+    setShowCart(false);
     setShowProductList(true);
   };
 
   return (
     <div className="app">
-      {!showProductList ? (
+      {showCart ? (
+        <CartItem onContinueShopping={handleContinueShopping} />
+      ) : showProductList ? (
+        <ProductList onCartClick={handleCartClick} onHomeClick={handleHomeClick} />
+      ) : (
         <div className="landing-page">
           <div className="background-image">
             <h1>Paradise Nursery</h1>
@@ -23,11 +45,6 @@ function App() {
               <AboutUs />
             </div>
           </div>
-        </div>
-      ) : (
-        <div style={{ padding: '20px', textAlign: 'center' }}>
-          <h2>Product Listing & Shopping Cart Coming Next!</h2>
-          <p>You clicked Get Started successfully.</p>
         </div>
       )}
     </div>
